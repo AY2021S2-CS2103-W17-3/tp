@@ -236,13 +236,21 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
+* has a need to manage a large number of venue bookings
+* has to ensure bookings abide by restrictions
+* need to check that the bookings are valid
+* are administrative personnels of schools or organisations
 * prefer desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**:
+
+* manage bookings faster than a typical mouse/GUI driven app
+* ease of managing bookings since it is a centralised system
+* automatically keeps track of room usage, conflicts and rule violations
+* clear and structured way to avoid ambiguity
 
 
 ### User stories
@@ -251,56 +259,193 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
 | -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person               |                                                                        |
-| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
-
-*{More to be added}*
+| `* * *`  | admin in charge of facilities              | add venues                     |                                                                        |
+| `* * *`  | admin in charge of facilities              | edit venues                    | reflect the most up to date details of the venue                       |
+| `* * *`  | admin in charge of facilities              | delete venues                  |                                                                        |
+| `* * *`  | admin in charge of facilities              | add bookings                   |                                                                        |
+| `* * *`  | admin in charge of facilities              | edit bookings                  | change booking details when the booker decides to amend the booking    |
+| `* * *`  | admin in charge of facilities              | delete bookings                |                                                                        |
+| `* *`    | admin in charge of facilities              | query booking information of a particular venue | quickly find out the relevant information instead of search one by one |
+| `*`      | admin in charge of facilities              | be able to access past data           | easily check the history of certain venues                      |
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is `BookCoin To The Moon` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case: UC01 - Delete a venue**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User requests to delete a specific venue.
+2.  BookCoin To The Moon deletes the venue.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 1a. The given venue is invalid.
+
+    * 1a1. AddressBook shows an error message.
+
+      Use case resumes at step 1.
+
+
+**Use case: UC02 - Delete a booking**
+
+**MSS**
+
+1.  User requests to delete a specific booking.
+2.  BookCoin To The Moon deletes the booking.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. The given booking is invalid.
+
+    * 1a1. AddressBook shows an error message.
+
+      Use case resumes at step 1.
+
+
+**Use case: UC03 - Add a venue**
+
+**MSS**
+
+1.  User requests to add a new venue into the system.
+2.  BookCoin To The Moon adds the venue into the system.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. The venue to be added is already in the system.
+    * 1a1. BookCoin To The Moon shows an error message.
 
   Use case ends.
 
-* 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+**Use case: UC04 - Add a booking**
 
-      Use case resumes at step 2.
+**MSS**
 
-*{More to be added}*
+1.  User requests to add a new booking into the system.
+2.  BookCoin To The Moon adds the booking into the system.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. The booking to be added is already in the system.
+    * 1a1. BookCoin To The Moon shows an error message.
+
+  Use case ends.
+
+**Use case: UC05 - List all bookings**
+
+**MSS**
+
+1.  User requests to list all bookings.
+2.  BookCoin To The Moon shows a list of bookings.
+
+    Use case ends.
+
+**Use case: UC06 - List all venues**
+
+**MSS**
+
+1.  User requests to list all venues.
+2.  BookCoin To The Moon shows a list of venues.
+
+    Use case ends.
+
+**Use case: UC07 - Find a booking**
+
+**MSS**
+
+1.  User requests to find information about a specific booking.
+2.  BookCoin To The Moon shows the information for that booking.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. The booking requested cannot be found.
+    * 1a1. BookCoin To The Moon shows an error message.
+
+  Use case ends.
+
+**Use case: UC08 - Find a venue**
+
+**MSS**
+
+1.  User requests to find information about a specific venue.
+2.  BookCoin To The Moon shows the information for that venue.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. The venue requested cannot be found.
+    * 1a1. BookCoin To The Moon shows an error message.
+
+  Use case ends.
+
+**Use case: UC09 - Edit a venue**
+
+**MSS**
+
+1.  User requests to edit information about a specific venue.
+2.  BookCoin To The Moon edits the venue information.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. The venue requested cannot be found.
+    * 1a1. BookCoin To The Moon shows an error message.
+
+  Use case ends.
+
+**Use case: UC10 - Edit a booking**
+
+**MSS**
+
+1.  User requests to edit information about a specific booking.
+2.  BookCoin To The Moon edits the booking information.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. The booking requested cannot be found.
+    * 1a1. BookCoin To The Moon shows an error message.
+
+  Use case ends.
+
+
+**Use case: UC11 - Exit the program**
+
+**MSS**
+
+1.  User requests to exit the program.
+2.  BookCoin To The Moon closes the window and terminates.
+
+    Use case ends.
+
+
 
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+2.  Should be able to hold up to 1000 venues and bookings without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-*{More to be added}*
+4.  Should be able to perform queries quickly even with significant amounts of data present.
 
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Booking**: A person's request to occupy the room for a specific amount of time at a specific date
 
 --------------------------------------------------------------------------------------------------------------------
 
