@@ -59,14 +59,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.persons.setPersons(persons);
     }
 
-
-    /**
-     * Replaces the contents of the venue list with {@code venues}.
-     * {@code venues} must not contain duplicate venues.
-     */
-    public void setVenues(List<Venue> venues) {
-        this.venues.setVenues(venues);
-    }
     /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
@@ -74,7 +66,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
-        setVenues(newData.getVenueList());
     }
 
     //// person-level operations
