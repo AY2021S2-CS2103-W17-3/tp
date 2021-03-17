@@ -59,7 +59,6 @@ public class BookingSystem implements ReadOnlyBookingSystem {
         this.persons.setPersons(persons);
     }
 
-
     /**
      * Replaces the contents of the venue list with {@code venues}.
      * {@code venues} must not contain duplicate venues.
@@ -67,6 +66,15 @@ public class BookingSystem implements ReadOnlyBookingSystem {
     public void setVenues(List<Venue> venues) {
         this.venues.setVenues(venues);
     }
+
+    /**
+     * Replaces the contents of the booking list with {@code bookings}.
+     * {@code bookings} must not contain duplicate bookings.
+     */
+    public void setBookings(NonOverlappingBookingList bookings) {
+        this.bookings.setBookings(bookings);
+    }
+
     /**
      * Resets the existing data of this {@code BookingSystem} with {@code newData}.
      */
@@ -75,6 +83,7 @@ public class BookingSystem implements ReadOnlyBookingSystem {
 
         setPersons(newData.getPersonList());
         setVenues(newData.getVenueList());
+        // setBookings(newData.getBookingList());
     }
 
     //// person-level operations
