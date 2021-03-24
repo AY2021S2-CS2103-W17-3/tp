@@ -3,9 +3,9 @@
 
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
-participant ":BookingSystemParser" as BookingSystemParser LOGIC_COLOR
-participant ":DeleteBookingCommandParser" as DeleteBookingCommandParser LOGIC_COLOR
-participant "d:DeleteBookingCommand" as DeleteBookingCommand LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":DeleteCommandParser" as DeleteCommandParser LOGIC_COLOR
+participant "d:DeleteCommand" as DeleteCommand LOGIC_COLOR
 participant ":CommandResult" as CommandResult LOGIC_COLOR
 end box
 
@@ -13,56 +13,56 @@ box Model MODEL_COLOR_T1
 participant ":Model" as Model MODEL_COLOR
 end box
 
-[-> LogicManager : execute("delete_booking 1")
+[-> LogicManager : execute("delete 1")
 activate LogicManager
 
-LogicManager -> BookingSystemParser : parseCommand("delete_booking 1")
-activate BookingSystemParser
+LogicManager -> AddressBookParser : parseCommand("delete 1")
+activate AddressBookParser
 
-create DeleteBookingCommandParser
-BookingSystemParser -> DeleteBookingCommandParser
-activate DeleteBookingCommandParser
+create DeleteCommandParser
+AddressBookParser -> DeleteCommandParser
+activate DeleteCommandParser
 
-DeleteBookingCommandParser --> BookingSystemParser
-deactivate DeleteBookingCommandParser
+DeleteCommandParser --> AddressBookParser
+deactivate DeleteCommandParser
 
-BookingSystemParser -> DeleteBookingCommandParser : parse("1")
-activate DeleteBookingCommandParser
+AddressBookParser -> DeleteCommandParser : parse("1")
+activate DeleteCommandParser
 
-create DeleteBookingCommand
-DeleteBookingCommandParser -> DeleteBookingCommand
-activate DeleteBookingCommand
+create DeleteCommand
+DeleteCommandParser -> DeleteCommand
+activate DeleteCommand
 
-DeleteBookingCommand --> DeleteBookingCommandParser : d
-deactivate DeleteBookingCommand
+DeleteCommand --> DeleteCommandParser : d
+deactivate DeleteCommand
 
-DeleteBookingCommandParser --> BookingSystemParser : d
-deactivate DeleteBookingCommandParser
+DeleteCommandParser --> AddressBookParser : d
+deactivate DeleteCommandParser
 'Hidden arrow to position the destroy marker below the end of the activation bar.
-DeleteBookingCommandParser -[hidden]-> BookingSystemParser
-destroy DeleteBookingCommandParser
+DeleteCommandParser -[hidden]-> AddressBookParser
+destroy DeleteCommandParser
 
-BookingSystemParser --> LogicManager : d
-deactivate BookingSystemParser
+AddressBookParser --> LogicManager : d
+deactivate AddressBookParser
 
-LogicManager -> DeleteBookingCommand : execute()
-activate DeleteBookingCommand
+LogicManager -> DeleteCommand : execute()
+activate DeleteCommand
 
-DeleteBookingCommand -> Model : deletePerson(1)
+DeleteCommand -> Model : deletePerson(1)
 activate Model
 
-Model --> DeleteBookingCommand
+Model --> DeleteCommand
 deactivate Model
 
 create CommandResult
-DeleteBookingCommand -> CommandResult
+DeleteCommand -> CommandResult
 activate CommandResult
 
-CommandResult --> DeleteBookingCommand
+CommandResult --> DeleteCommand
 deactivate CommandResult
 
-DeleteBookingCommand --> LogicManager : result
-deactivate DeleteBookingCommand
+DeleteCommand --> LogicManager : result
+deactivate DeleteCommand
 
 [<--LogicManager
 deactivate LogicManager

@@ -3,42 +3,42 @@
 
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
-participant ":BookingSystemParser" as BookingSystemParser LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
 participant "u:UndoCommand" as UndoCommand LOGIC_COLOR
 end box
 
 box Model MODEL_COLOR_T1
 participant ":Model" as Model MODEL_COLOR
-participant ":VersionedBookingSystem" as VersionedBookingSystem MODEL_COLOR
+participant ":VersionedAddressBook" as VersionedAddressBook MODEL_COLOR
 end box
 [-> LogicManager : execute(undo)
 activate LogicManager
 
-LogicManager -> BookingSystemParser : parseCommand(undo)
-activate BookingSystemParser
+LogicManager -> AddressBookParser : parseCommand(undo)
+activate AddressBookParser
 
 create UndoCommand
-BookingSystemParser -> UndoCommand
+AddressBookParser -> UndoCommand
 activate UndoCommand
 
-UndoCommand --> BookingSystemParser
+UndoCommand --> AddressBookParser
 deactivate UndoCommand
 
-BookingSystemParser --> LogicManager : u
-deactivate BookingSystemParser
+AddressBookParser --> LogicManager : u
+deactivate AddressBookParser
 
 LogicManager -> UndoCommand : execute()
 activate UndoCommand
 
-UndoCommand -> Model : undoBookingSystem()
+UndoCommand -> Model : undoAddressBook()
 activate Model
 
-Model -> VersionedBookingSystem : undo()
-activate VersionedBookingSystem
+Model -> VersionedAddressBook : undo()
+activate VersionedAddressBook
 
-VersionedBookingSystem -> VersionedBookingSystem :resetData(ReadOnlyBookingSystem)
-VersionedBookingSystem --> Model :
-deactivate VersionedBookingSystem
+VersionedAddressBook -> VersionedAddressBook :resetData(ReadOnlyAddressBook)
+VersionedAddressBook --> Model :
+deactivate VersionedAddressBook
 
 Model --> UndoCommand
 deactivate Model
