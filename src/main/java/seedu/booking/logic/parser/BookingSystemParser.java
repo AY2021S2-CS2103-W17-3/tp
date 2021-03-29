@@ -6,7 +6,6 @@ import static seedu.booking.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import seedu.booking.logic.commands.AddBookingCommand;
 import seedu.booking.logic.commands.AddPersonCommand;
 import seedu.booking.logic.commands.AddVenueCommand;
 import seedu.booking.logic.commands.ClearCommand;
@@ -20,6 +19,7 @@ import seedu.booking.logic.commands.EditCommand;
 import seedu.booking.logic.commands.EditPersonCommand;
 import seedu.booking.logic.commands.EditVenueCommand;
 import seedu.booking.logic.commands.ExitCommand;
+import seedu.booking.logic.commands.ExitPromptCommand;
 import seedu.booking.logic.commands.FilterBookingByBookerCommand;
 import seedu.booking.logic.commands.FilterBookingByDateCommand;
 import seedu.booking.logic.commands.FilterBookingByVenueCommand;
@@ -31,7 +31,15 @@ import seedu.booking.logic.commands.HelpCommand;
 import seedu.booking.logic.commands.ListBookingCommand;
 import seedu.booking.logic.commands.ListCommand;
 import seedu.booking.logic.commands.ListVenueCommand;
+import seedu.booking.logic.commands.PromptCreateBookingCommand;
+import seedu.booking.logic.commands.states.BookingCommandState;
 import seedu.booking.logic.parser.exceptions.ParseException;
+import seedu.booking.logic.parser.promptparsers.BookingDescPromptParser;
+import seedu.booking.logic.parser.promptparsers.BookingEndPromptParser;
+import seedu.booking.logic.parser.promptparsers.BookingStartPromptParser;
+import seedu.booking.logic.parser.promptparsers.EmailPromptParser;
+import seedu.booking.logic.parser.promptparsers.VenueNamePromptParser;
+import seedu.booking.model.ModelManager;
 
 /**
  * Parses user input.
@@ -52,6 +60,36 @@ public class BookingSystemParser {
      * @throws ParseException if the user input does not conform the expected format
      */
     public Command parseCommand(String userInput) throws ParseException {
+
+        if (ModelManager.isStateActive()) {
+
+            if (userInput.equals(ExitPromptCommand.COMMAND_WORD)) {
+                return new ExitPromptCommand();
+            } else {
+                String currentState = ModelManager.getState();
+                switch (currentState) {
+
+                case BookingCommandState.STATE_EMAIL:
+                    return new EmailPromptParser().parse(userInput);
+
+                case BookingCommandState.STATE_VENUE:
+                    return new VenueNamePromptParser().parse(userInput);
+
+                case BookingCommandState.STATE_DESC:
+                    return new BookingDescPromptParser().parse(userInput);
+
+                case BookingCommandState.STATE_START:
+                    return new BookingStartPromptParser().parse(userInput);
+
+                case BookingCommandState.STATE_END:
+                    return new BookingEndPromptParser().parse(userInput);
+
+                default:
+                    throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
+                }
+            }
+        }
+
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
         if (!matcher.matches()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
@@ -110,9 +148,6 @@ public class BookingSystemParser {
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
 
-        case AddBookingCommand.COMMAND_WORD:
-            return new CreateBookingCommandParser().parse(arguments);
-
         case AddVenueCommand.COMMAND_WORD:
             return new CreateVenueCommandParser().parse(arguments);
 
@@ -133,6 +168,10 @@ public class BookingSystemParser {
 
         case FilterBookingByDateCommand.COMMAND_WORD:
             return new FilterBookingByDateCommandParser().parse(arguments);
+
+        case PromptCreateBookingCommand.COMMAND_WORD:
+            return new PromptCreateBookingCommand();
+
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
