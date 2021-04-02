@@ -15,7 +15,7 @@ import seedu.booking.model.BookingSystem;
 import seedu.booking.model.person.Person;
 
 /**
- * A utility class containing a list of {@code Person} objects to be used in tests.
+ * A utility class containing a list of {@code Person} objects to be used in tests..
  */
 public class TypicalPersons {
 
